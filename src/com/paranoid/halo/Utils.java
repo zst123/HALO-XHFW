@@ -17,6 +17,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 public class Utils {
+	public static final int FLAG_FLOATING_WINDOW = 0x00002000;
 
     public static int getStringHash(String str){
         int sum = 0;
@@ -112,14 +113,27 @@ public class Utils {
                         .setAutoCancel(false)
                         .setLargeIcon(Utils.getApplicationIcon(packageName, context))
                         .setContentTitle(appName)
-                        .setContentText(context.getString(R.string.tap_to_launch));
+                        .setContentText(context.getString(R.string.tap_to_launch))
+                        ;
+        
         Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        intent.addFlags(FLAG_FLOATING_WINDOW);
+        intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+        intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS); 
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
                 intent, 0);
         mBuilder.setContentIntent(contentIntent);
-        Notification notif = mBuilder.build();
+        Notification notif = mBuilder.getNotification();//.build();
         notif.flags |= Notification.FLAG_ONGOING_EVENT;
-        notif.priority = Notification.PRIORITY_MIN;
+       // notif.priority = Notification.PRIORITY_MIN;
         notif.tickerText = appName;
         notificationManager.notify(Utils.getStringHash(packageName), notif);
     }
