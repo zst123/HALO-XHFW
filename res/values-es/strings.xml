@@ -7,18 +7,8 @@
     <string name="stop">Detener</string>
     <string name="add">Añadir</string>
     <string name="choose_app">Seleccionar aplicación</string>
-    <string name="icon_picker_type">Seleccione el tipo de icono:</string>
-    <string name="icon_default">Por defecto</string>
-    <string name="icon_custom">Personalizado</string>
     <string name="unknown">Desconocido</string>
 
     <string name="stop_to_remove">Por favor detenga el servicio antes de remover cualquier aplicación</string>
-    
-    <string name="ext_notes">Notas</string>
-    <string name="ext_note1">Nota 1</string>
-    <string name="ext_note2">Nota 2</string>
-    <string name="ext_note3">Nota 3</string>
-    <string name="ext_note4">Nota 4</string>
-    <string name="extensions">Extensiones</string>
     
 </resources>
