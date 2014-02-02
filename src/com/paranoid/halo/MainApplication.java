@@ -9,7 +9,9 @@ public class MainApplication extends Application {
     public void onCreate()
     {
         super.onCreate();
-
+        
+        startService(new Intent(this, MyService.class));
+        
         if (Utils.getStatus(this)) {
             String[] packages = Utils.loadArray("items", this);
             if(packages != null) {
