@@ -17,7 +17,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-@SuppressLint("NewApi")
+
 public class MyService extends Service{
 
 	
@@ -101,7 +101,7 @@ public class MyService extends Service{
 			PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
 					intent, 0);
 			mBuilder.setContentIntent(contentIntent);
-			Notification notif = mBuilder.build();
+			Notification notif = mBuilder.getNotification();//.build();
 			notif.flags |= Notification.FLAG_ONGOING_EVENT;
 			// notif.priority = Notification.PRIORITY_MIN;
 			notif.tickerText = foregroundTaskAppName;
