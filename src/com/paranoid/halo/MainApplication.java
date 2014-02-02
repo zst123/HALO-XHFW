@@ -3,6 +3,7 @@ package com.paranoid.halo;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 
 public class MainApplication extends Application {
     @Override
