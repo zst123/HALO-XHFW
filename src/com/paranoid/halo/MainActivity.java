@@ -33,6 +33,7 @@ public class MainActivity extends PreferenceActivity {
     
     private static final int MENU_ADD = 0;
     private static final int MENU_ACTION = 1;
+    private static final int MENU_NOTIFI = 2;
     
     private NotificationManager mNotificationManager;
     private Context mContext;
