@@ -99,6 +99,9 @@ public class MainActivity extends PreferenceActivity {
         menu.add(Menu.NONE, MENU_ACTION, 0, R.string.start)
             .setIcon(R.drawable.ic_start)
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+        menu.add(Menu.NONE, MENU_NOTIFI, 0,"Start On Going Notification")
+        	.setIcon(R.drawable.ic_bell1)
+        	.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
         return true;
     }
 
@@ -152,6 +155,9 @@ public class MainActivity extends PreferenceActivity {
                 }
                 Utils.saveStatus(mShowing, mContext);
                 invalidateOptionsMenu();
+                break;
+            case MENU_NOTIFI:
+            	startService(new Intent(this, MyService.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
