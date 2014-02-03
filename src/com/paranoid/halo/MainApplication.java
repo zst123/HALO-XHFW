@@ -11,7 +11,6 @@ public class MainApplication extends Application {
     {
         super.onCreate();
         
-        startService(new Intent(this, MyService.class));
         
         if (Utils.getStatus(this)) {
             String[] packages = Utils.loadArray("items", this);
