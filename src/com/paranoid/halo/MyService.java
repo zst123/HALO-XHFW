@@ -15,7 +15,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
+
 
 
 public class MyService extends Service{
@@ -33,33 +33,17 @@ public class MyService extends Service{
 
 	@Override
 	public void onCreate() {
-		ActivityManager am = (ActivityManager) MyService.this.getSystemService(ACTIVITY_SERVICE);
-		//
-		RunningTaskInfo foregroundTaskInfo = am.getRunningTasks(1).get(0);
-		//
-		String foregroundTaskPackageName = foregroundTaskInfo .topActivity.getPackageName();
-		Prev=foregroundTaskPackageName;
-		//Toast.makeText(this, "Congrats! MyService Created", Toast.LENGTH_LONG).show();
-		Log.d(TAG, "onCreate");
-		
-		
-
-	}
+		Prev="";
+		}
 
 	public void onStart(Intent intent1, int startId) {
-		//Toast.makeText(this,Prev, Toast.LENGTH_LONG).show();
-		//
-		//
 		ActivityManager am = (ActivityManager) MyService.this.getSystemService(ACTIVITY_SERVICE);
-		//
 		RunningTaskInfo foregroundTaskInfo = am.getRunningTasks(1).get(0);
-		//
 		String foregroundTaskPackageName = foregroundTaskInfo .topActivity.getPackageName();
-		//
 		
 		if (!Prev.equals(foregroundTaskPackageName)) {
 			
-			//
+			try{
 			PackageManager pm = MyService.this.getPackageManager();
 			//
 			PackageInfo foregroundAppPackageInfo;
@@ -107,18 +91,20 @@ public class MyService extends Service{
 			notif.tickerText = foregroundTaskAppName;
 			NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			mNotificationManager.notify(6, notif);
+			}catch (Exception e) {
+				
+			    }
 		}
 		Prev=foregroundTaskPackageName;
         
         final Context context =this;
-        new CountDownTimer(10000, 1000) {
+        new CountDownTimer(7000, 1000) {
         	
             public void onTick(long millisUntilFinished) {
                
             }
 
             public void onFinish() {
-            	Log.d(TAG, "onRestart");
             	Intent intent2 = new Intent (context, MyService.class);
 				startService(intent2);
             }
@@ -129,8 +115,7 @@ public class MyService extends Service{
 	
 	@Override
 	public void onDestroy() {
-		Toast.makeText(this, "MyService Stopped", Toast.LENGTH_LONG).show();
-		Log.d(TAG, "onDestroy");
+		
 	}
 
 
