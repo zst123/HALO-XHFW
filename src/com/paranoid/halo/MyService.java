@@ -1,6 +1,5 @@
 package com.paranoid.halo;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
