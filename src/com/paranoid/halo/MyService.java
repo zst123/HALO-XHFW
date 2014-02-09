@@ -20,10 +20,7 @@ import android.util.Log;
 public class MyService extends Service{
 
 	
-	private static final String TAG = "MyService";
 	public static final int FLAG_FLOATING_WINDOW = 0x00002000;
-	NotificationManager notificationManager;
-	String Prev ;
 	
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -32,7 +29,7 @@ public class MyService extends Service{
 
 	@Override
 	public void onCreate() {
-		Prev="";
+		
 		}
 
 	public void onStart(Intent intent1, int startId) {
@@ -40,75 +37,16 @@ public class MyService extends Service{
 		RunningTaskInfo foregroundTaskInfo = am.getRunningTasks(1).get(0);
 		String foregroundTaskPackageName = foregroundTaskInfo .topActivity.getPackageName();
 		
-		if (!Prev.equals(foregroundTaskPackageName)) {
-			
-			try{
-			PackageManager pm = MyService.this.getPackageManager();
-			//
-			PackageInfo foregroundAppPackageInfo;
-			try {
-				foregroundAppPackageInfo = pm.getPackageInfo(
-						foregroundTaskPackageName, 0);
-			} catch (final NameNotFoundException e) {
-				foregroundAppPackageInfo = null;
-				Log.d(TAG, "foregroundAppPackageInfo");
-			}
-			//
-			String foregroundTaskAppName = foregroundAppPackageInfo.applicationInfo
-					.loadLabel(pm).toString();
-			//
-			//
-			//
-			//
-			
-			Notification.Builder mBuilder = new Notification.Builder(this)
-					.setSmallIcon(R.drawable.ic_status)
-					.setLargeIcon(
-							Utils.getApplicationIcon(foregroundTaskPackageName,
-									this)).setAutoCancel(false)
-					.setContentTitle(foregroundTaskAppName)
-					.setContentText(this.getString(R.string.tap_to_launch));
-			Intent intent = this.getPackageManager().getLaunchIntentForPackage(
-					foregroundTaskPackageName);
+		Intent intent =getPackageManager().getLaunchIntentForPackage(foregroundTaskPackageName);
 			intent.addFlags(FLAG_FLOATING_WINDOW);
-			intent.setFlags(intent.getFlags()& ~Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-			intent.setFlags(intent.getFlags()& ~Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-					intent, 0);
-			mBuilder.setContentIntent(contentIntent);
-			Notification notif = mBuilder.getNotification();//.build();
-			notif.flags |= Notification.FLAG_ONGOING_EVENT;
-			// notif.priority = Notification.PRIORITY_MIN;
-			notif.tickerText = foregroundTaskAppName;
-			NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			mNotificationManager.notify(6, notif);
-			}catch (Exception e) {
-				
-			    }
-		}
-		Prev=foregroundTaskPackageName;
-        
-        final Context context =this;
-        new CountDownTimer(7000, 1000) {
-        	
-            public void onTick(long millisUntilFinished) {
-               
-            }
-
-            public void onFinish() {
-            	Intent intent2 = new Intent (context, MyService.class);
-				startService(intent2);
-            }
-         }.start();
-
+			intent.setFlags(intent.getFlags()& ~Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+			intent.setFlags(intent.getFlags()& ~Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			
+		getApplication().startActivity(intent);
         
 	}
 	
