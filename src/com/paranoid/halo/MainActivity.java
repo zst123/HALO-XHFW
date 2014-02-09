@@ -158,7 +158,21 @@ public class MainActivity extends PreferenceActivity {
                 invalidateOptionsMenu();
                 break;
             case MENU_NOTIFI:
-            	startService(new Intent(this, MyService.class));
+            	Intent intent = new Intent(this, MyService.class);
+            	PendingIntent contentIntent = PendingIntent.getService(this, 0, intent, 0);
+            	Notification.Builder mBuilder =
+                        new Notification.Builder(this)
+                        .setSmallIcon(R.drawable.ic_status)
+                        .setAutoCancel(false)
+                        //.setLargeIcon(R.drawable.ic_status)
+                        .setContentTitle("Halofiy")
+                        .setContentText("Launch Current App in HALO")
+                        .setContentIntent(contentIntent)
+                        ;
+            	NotificationManager  notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            	Notification notif = mBuilder.getNotification();//.build();
+            	notif.flags |= Notification.FLAG_ONGOING_EVENT;
+            	notificationManager.notify(0,notif);
                 break;
         }
         return super.onOptionsItemSelected(item);
