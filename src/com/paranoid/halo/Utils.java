@@ -118,16 +118,7 @@ public class Utils {
         
         Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
         intent.addFlags(FLAG_FLOATING_WINDOW);
-        intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-        intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS); 
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
                 intent, 0);
         mBuilder.setContentIntent(contentIntent);

@@ -33,6 +33,7 @@ public class MainActivity extends PreferenceActivity {
     
     private static final int MENU_ADD = 0;
     private static final int MENU_ACTION = 1;
+    private static final int MENU_NOTIFI = 2;
     
     private NotificationManager mNotificationManager;
     private Context mContext;
@@ -99,6 +100,9 @@ public class MainActivity extends PreferenceActivity {
         menu.add(Menu.NONE, MENU_ACTION, 0, R.string.start)
             .setIcon(R.drawable.ic_start)
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+        menu.add(Menu.NONE, MENU_NOTIFI, 0,"Start On Going Notification")
+        	.setIcon(R.drawable.ic_bell1)
+        	.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
         return true;
     }
 
@@ -152,6 +156,23 @@ public class MainActivity extends PreferenceActivity {
                 }
                 Utils.saveStatus(mShowing, mContext);
                 invalidateOptionsMenu();
+                break;
+            case MENU_NOTIFI:
+            	Intent intent = new Intent(this, MyService.class);
+            	PendingIntent contentIntent = PendingIntent.getService(this, 0, intent, 0);
+            	Notification.Builder mBuilder =
+                        new Notification.Builder(this)
+                        .setSmallIcon(R.drawable.ic_status)
+                        .setAutoCancel(false)
+                        //.setLargeIcon(R.drawable.ic_status)
+                        .setContentTitle("Halofiy")
+                        .setContentText("Launch Current App in HALO")
+                        .setContentIntent(contentIntent)
+                        ;
+            	NotificationManager  notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            	Notification notif = mBuilder.getNotification();//.build();
+            	notif.flags |= Notification.FLAG_ONGOING_EVENT;
+            	notificationManager.notify(0,notif);
                 break;
         }
         return super.onOptionsItemSelected(item);

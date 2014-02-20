@@ -9,7 +9,8 @@ public class MainApplication extends Application {
     public void onCreate()
     {
         super.onCreate();
-
+        
+        
         if (Utils.getStatus(this)) {
             String[] packages = Utils.loadArray("items", this);
             if(packages != null) {
