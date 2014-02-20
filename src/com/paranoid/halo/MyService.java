@@ -40,11 +40,6 @@ public class MyService extends Service{
 		Intent intent =getPackageManager().getLaunchIntentForPackage(foregroundTaskPackageName);
 			intent.addFlags(FLAG_FLOATING_WINDOW);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-			intent.setFlags(intent.getFlags()& ~Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-			intent.setFlags(intent.getFlags()& ~Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			
 		getApplication().startActivity(intent);
         
